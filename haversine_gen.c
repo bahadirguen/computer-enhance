@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "haversine_formula.cpp"
+#include "haversine_formula.c"
 
 typedef unsigned int u32;
 typedef double f64;

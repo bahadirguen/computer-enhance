@@ -14,10 +14,10 @@ int main(int argc, char **argv) {
 
   Nob_Cmd cmd = {0};
 
-  nob_cmd_append(&cmd, "clang++");
+  nob_cmd_append(&cmd, "clang");
   nob_cmd_append(&cmd, "-Wall", "-Wextra");
   nob_cmd_append(&cmd, "-o", BUILD_FOLDER "haversine_gen.exe");
-  nob_cmd_append(&cmd, SRC_FOLDER "haversine_gen.cpp");
+  nob_cmd_append(&cmd, SRC_FOLDER "haversine_gen.c");
 
   if (!nob_cmd_run_sync_and_reset(&cmd))
     return 1;
