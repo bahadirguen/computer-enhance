@@ -1,0 +1,12 @@
+.ignore
+
+build/
+*.o
+
+bin/
+dist/
+*.exe
+*.so
+*.a
+*.dll
+

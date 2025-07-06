@@ -208,7 +208,8 @@
 #define _IMM_
 #define _WINCON_
 #include <direct.h>
-#include <shellapi.h>
+// Note(BG): Causes errors on Win11
+// #include <shellapi.h>
 #include <windows.h>
 #else
 #include <fcntl.h>
@@ -860,7 +861,8 @@ static char nob_temp[NOB_TEMP_CAPACITY] = {0};
 
 bool nob_mkdir_if_not_exists(const char *path) {
 #ifdef _WIN32
-  int result = mkdir(path);
+  // Note(BG): mkdir causes warnings on Win11
+  int result = _mkdir(path);
 #else
   int result = mkdir(path, 0755);
 #endif
