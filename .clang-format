@@ -3,7 +3,11 @@ Language:        C
 BasedOnStyle: google
 PointerAlignment: Left
 
-# AlignConsecutiveAssignments:
+AlignConsecutiveAssignments:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+
 AlignConsecutiveDeclarations:
   Enabled: true
   AcrossEmptyLines: false
