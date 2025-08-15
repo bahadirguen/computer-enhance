@@ -48,11 +48,6 @@ const char* json_err_to_cstr(const enum JsonErrorType json_err) {
 }
 
 /*
- * parse
- */
-JsonObj* cstr_to_json(char* json_str, i32* json_err);
-
-/*
  * access
  */
 JsonObj* json_get_key(JsonObj* json_obj, String* key, i32* json_err) {
@@ -107,7 +102,31 @@ f64 json_to_float(JsonObj* json_obj, i32* json_err) {
   return *(f64*)(json_obj->val);
 }
 
-int main() {
+/*
+ * parse
+ */
+enum JsonParseState {
+  _PARSE_JSON_NEUTRAL = 0,
+  _PARSE_JSON_OBJ,
+  _PARSE_JSON_ARRAY,
+  _PARSE_JSON_NUMBER,
+  _PARSE_JSON_FLOAT,
+  _PARSE_JSON_BOOL,
+  _PARSE_JSON_STRING,
+};
+
+/*
+ * Tokens: {} [] " : , +-
+ */
+/*
+JsonObj* cstr_to_json(char* json_c_str, SimpleArena* arena, i32* json_err) {
+  for (u32 i = 0; json_c_str[i] != '\0'; i++) {
+  }
+  return 0;
+}
+   */
+
+int initial_demo() {
   f64      my_float_val_1     = 1.1f;
   f64      my_float_val_2     = 2.2f;
   JsonObj  valid_json_obj_1   = {.val      = (void*)(&my_float_val_1),
@@ -168,4 +187,51 @@ int main() {
          result, err, json_err_to_cstr(err));
 
   free_arena(arena);
+  return 0;
 }
+
+#define demo_push_stack_val(val)                                     \
+  do {                                                               \
+    printf("Pushing %s to stack (%d)\n", #val, val);                 \
+    err = push_stack(stack, &val, data_type);                        \
+    if (err) {                                                       \
+      printf("Error during push_stack (%s) (err: %d)\n", #val, err); \
+    }                                                                \
+    val = -1;                                                        \
+  } while (0)
+
+#define demo_pop_stack(note)                                      \
+  do {                                                            \
+    stack_data = pop_stack(stack);                                \
+    printf("Popped value from stack (%s): %d (type: %d)\n", note, \
+           stack_data.value.val_i32, stack_data.data_type);       \
+  } while (0)
+
+int stack_demo() {
+  i32          err   = 0;
+  SimpleStack* stack = init_stack(4096, &err);
+  if (err) {
+    printf("Error during init_stack (err: %d)\n", err);
+  }
+
+  enum StackDataType data_type = I32_STACK_DATA_TYPE;
+  printf("Using stack data type: %d\n", data_type);
+  i32 val_1 = 5;
+  i32 val_2 = 12;
+  i32 val_3 = 13;
+
+  demo_push_stack_val(val_1);
+  demo_push_stack_val(val_2);
+  demo_push_stack_val(val_3);
+
+  StackData stack_data = {0};
+
+  demo_pop_stack("1");
+  demo_pop_stack("2");
+  demo_pop_stack("3");
+  demo_pop_stack("4");
+
+  return 0;
+}
+
+int main() { return stack_demo(); }
